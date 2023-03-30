@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "pilha_vetor.c"
+#include "pilha_lista.c"
 
 
 
