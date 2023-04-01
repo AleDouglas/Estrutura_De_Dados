@@ -31,10 +31,12 @@ void arvv_insere(ArvVar *a, ArvVar *sa){
 }
 
 void arvv_imprime(ArvVar *a){
-    ArvVar* p;
+    ArvVar* p = a->prim;
     printf("<%c\n", a->info);
-    for (p=a->prim; p!=NULL; p=p->prox);
-        arvv_imprime(p);
+    while( p!= NULL ){
+        arvv_imprime(p); /* imprime cada sub-árvore filha */
+        p = p->prox;
+    }
     printf(">");
 
 }
@@ -51,9 +53,50 @@ void arvv_libera(ArvVar *a){
 }
 
 
+int arvv_pertence (ArvVar* a , char c){
+    ArvVar* p;
+    if ( a->info == c)
+        return 1;
+    else{
+        for ( p= a -> prim; p!= NULL; p=p->prox){
+            if (arvv_pertence(p, c))
+                return 1;
+        }
+        return 0;
+    }
+}
+
 int main(void){
     
+    /* cria nós como folhas */
+    ArvVar* a = arvv_cria('a');
+    ArvVar* b = arvv_cria('b');
+    ArvVar* c = arvv_cria('c');
+    ArvVar* d = arvv_cria('d');
+    ArvVar* e = arvv_cria('e');
+    ArvVar* f = arvv_cria('f');
+    ArvVar* g = arvv_cria('g');
+    ArvVar* h = arvv_cria('h');
+    ArvVar* i = arvv_cria('i');
+    ArvVar* j = arvv_cria('j');
 
+    /* monta a hierarquia */
+    arvv_insere(c,d);
+    arvv_insere(b,e);
+    arvv_insere(b,c);
+    arvv_insere(i,j);
+    arvv_insere(g,i);
+    arvv_insere(g,h);
+    arvv_insere(a,g);
+    arvv_insere(a,f);
+    arvv_insere(a,b);
+
+
+    arvv_imprime(a);
+    if(arvv_pertence(g, 'i'))
+        printf("Pertence");
+
+    arvv_libera(a);
     printf("\n");
     return 0;
 }
